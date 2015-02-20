@@ -39,12 +39,11 @@ var runServer = function(options) {
 
     var pub = __dirname + '/../public';
     app.use(express.static(pub));
-    app.use(bodyParser.urlencoded({extended:true}));
-    app.use(cookieParser());
+    //app.use(bodyParser.urlencoded({extended:true}));
 
 
     //Use jade
-    app.set('view engine', 'jade');
+    //app.set('view engine', 'jade');
     app.set('views', __dirname + '/../app/views');
 
     //Always use pretty html.
