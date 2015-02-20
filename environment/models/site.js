@@ -2,19 +2,18 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var SiteSchema = new Schema({
-	sitename = {
+	sitename : {
 		type: String
 	},
-	logo = {
-		data: Buffer,
-		contentType: String
-	},
-	frontend = {
+	logo : {
 		type: String
 	},
-	backend = {
+	frontend : {
 		type: String
-});
+	},
+	backend : {
+		type: String
+}});
 
 SiteSchema.methods = {
 }
