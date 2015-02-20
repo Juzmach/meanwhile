@@ -5,7 +5,6 @@ var express = require('express'),
     sitemodel = require('../models/site.js');
     Site = mongoose.model('Site');
 
-
 var runServer = function(options) {
     if(!options.port) {
         //throw "Error, no port";
@@ -18,20 +17,13 @@ var runServer = function(options) {
     var connect = function() {
         var options = {server: {socketOptions: {keepAlive: 1}}};
         //mongooseConn = mongoose.createConnection("mongodb://localhost/", options);
-        if(process.env.TRAVIS) {
-            //travis yay
-            mongooseConn = mongoose.connect("mongodb://localhost/", options);
-
-        }
-        else { 
-            //docker yay
-            mongooseConn = mongoose.connect("mongodb://db_1/", options);
-        }
+        mongooseConn = mongoose.connect("mongodb://db_1/", options);
     };
     connect();
     mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
     mongoose.connection.on('disconnected', connect);
     mongoose.connection.on('connected', function(){
+        console.log('jeejee');
     });
 
 
@@ -57,26 +49,28 @@ var runServer = function(options) {
 
     //var url = "http://www.mcdonalds.fi/fi.html";
     //var url = "http://www.hs.fi/";
-    var url = "http://www.cloetta.fi/";
+    var urls = ["http://www.cloetta.fi/"]; //, "http://www.hs.fi/"];
 
     require('./routes')(app);
-    var crawler = require('./crawler');
 
-    var site = crawler.crawl(app, url)
-    if (site) 
+    var crawler = require('./crawlall'); 
+    var sites = crawler.crawl(app, urls);
+    for (var site in sites)
     {
-        var newSite = new Site({logo: site});
+        console.log('i work');
+        var newSite = new Site({logo: site.logo});
         newSite.save(function (err, newSite) {
             if (err) console.log(err);
         });
-    } 
-
+    }
+    
     //everything sockets related
     //require('./sockets').initCons(io, passport, mongooseSessionStore, persistenceHandler);
 
     return {app: app, server: server, mongConn: mongooseConn};
 
 }
+
 module.exports = function(options) {
     return runServer(options);
 }
