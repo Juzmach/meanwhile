@@ -7,7 +7,7 @@ var crawl = function(app, url) {
             chunk += data;
         });
         res.on('end', function() {
-            findLogo(chunk, getBaseUrl(url));
+            return findLogo(chunk, getBaseUrl(url));
         });
     });
 }
@@ -27,10 +27,8 @@ var findLogo = function(data, url) {
     var link = data.slice(linkFoundAt+"<img src=\"".length, linkEndsAt);
     if (link.indexOf('http') == -1) 
     {
-        console.log(url + link);
         return url+link;
     } else {
-        console.log(link);
         return link;
     }
     

@@ -2,6 +2,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     app = express();
+    sitemodel = require('../models/site.js');
+    Site = mongoose.model('Site');
 
 
 var runServer = function(options) {
@@ -53,19 +55,21 @@ var runServer = function(options) {
         console.log("server running..");
     });
 
-    //var io = require('socket.io')(server);
-
-    //var persistenceHandler = require('./persistence');
-
-    //routes
     //var url = "http://www.mcdonalds.fi/fi.html";
     //var url = "http://www.hs.fi/";
     var url = "http://www.cloetta.fi/";
 
     require('./routes')(app);
     var crawler = require('./crawler');
-    crawler.crawl(app, url);
 
+    var site = crawler.crawl(app, url)
+    if (site) 
+    {
+        var newSite = new Site({logo: site});
+        newSite.save(function (err, newSite) {
+            if (err) console.log(err);
+        });
+    } 
 
     //everything sockets related
     //require('./sockets').initCons(io, passport, mongooseSessionStore, persistenceHandler);
