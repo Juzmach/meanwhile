@@ -1,4 +1,8 @@
-h1 {
-    color: blue;
+.jumbotron,
+.jumbotron.container {
+    padding-top: 10em;
+    padding-bottom: 5em;
+    background: rgb(52, 152, 219);
+    color: white;
+    text-align: center;
 }
-
