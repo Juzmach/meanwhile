@@ -1,4 +1,4 @@
-angular.module('tsatter').factory('socket', function($rootScope) {
+angular.module('meanwhile').factory('socket', function($rootScope) {
     var address = location.host;
     var socket = io(address);
     socket.on('message', function(message) {

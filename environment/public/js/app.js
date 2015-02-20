@@ -1,56 +1,4 @@
-var app = angular.module('tsatter', ['ngAnimate', 'ui.bootstrap', 'akoenig.deckgrid']);
-
-app.directive('tsUserHeader', function() {
-    return {
-        restrict: "E",
-        templateUrl: '/partials/userheader',
-        link: function(scope, element, attrs) {
-
-        }
-    };
-});
-
-app.directive('tsChat', function($timeout) {
-    return {
-        restrict: "E",
-        templateUrl: '/partials/chat',
-        link: function(scope, element, attrs) {
-            console.log("le attribute:");
-            console.log(attrs.channelName);
-            scope.channelName = attrs.channelName;
-            $timeout(function() {
-                scope.msgDiv = document.getElementById(attrs.channelName);
-            });
-        }
-    };
-});
-
-app.directive('tsCardMessages', function($compile) {
-    var getTemplate = function(messagesString) {
-        var template = '';
-        if(messagesString) {
-            var messagesObj = JSON.parse(messagesString);
-            for (var idx in messagesObj) {
-                var messageObj = messagesObj[idx];
-                template += '<p><strong>' + messageObj.nick + ':</strong> ' +  messageObj.message + '</p>';
-            }
-        }
-        return template;
-    };
-    return {
-        restrict: 'E',
-
-        link: function(scope, element, attrs) {
-            if(attrs.messages) {
-                var template = getTemplate(attrs.messages);
-                var temp = element.html(template);
-                if(temp.show) {
-                    temp.show();
-                }
-            }
-        }
-    };
-});
+var app = angular.module('meanwhile', ['ngAnimate', 'ui.bootstrap', 'akoenig.deckgrid']);
 
 app.directive('tsDiscovery', function() {
     return {
@@ -61,21 +9,3 @@ app.directive('tsDiscovery', function() {
         }
     };
 });
-
-app.directive('tsChatMessage', function($timeout) {
-    return {
-        restrict: "E",
-        templateUrl: '/partials/chatmessage',
-        link: function(scope, element, attrs) {
-            /*
-            if(scope.$last === true){
-                $timeout(function() {
-                    scope.$emit('msgRepeatFinished');
-                    scope.lastElementScroll(attrs.id);
-                });
-            }
-            */
-        }
-    };
-});
-

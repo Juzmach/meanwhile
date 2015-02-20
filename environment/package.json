@@ -1,6 +1,6 @@
 {
-  "name": "Tsatter",
-  "description": "Chat thingy",
+  "name": "meanwhile",
+  "description": "thingy",
   "dependencies": {
     "mocha": "*",
     "should": "*",
@@ -8,8 +8,6 @@
     "express-session": "*",
     "cookie-parser": "*",
     "mongoose": "*",
-    "mongoose-session-store": "*",
-    "hiredis": "*",
     "redis": "*",
     "body-parser": "*",
     "supertest": "*",
@@ -17,11 +15,8 @@
     "request": "*",
     "passport": "*",
     "irc": "*",
-    "passport.socketio": "*",
-    "passport-local-mongoose": "*",
     "socket.io": "*",
     "socket.io-client": "*",
-    "xmlhttprequest": "*"
   },
 
   "scripts": {
