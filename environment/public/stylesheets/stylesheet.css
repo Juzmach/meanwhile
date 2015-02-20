@@ -25,13 +25,19 @@
 }
 
 .pinterest-picture {
-    max-width: 100%;
+    max-width: 95%;
     height: auto;
+    border: 2px solid white;
 }
 
 .pinterest-container {
 	margin: 10px;
-	outline: 2px solid blue;
+    background: rgb(52,152,219);
+    border-radius: 6px;
 	overflow: hidden;
 	text-align: center;
+    padding: 1em;
+    padding-top: 0;
+    padding-bottom: 1.5em;
+    color: white;
 }
