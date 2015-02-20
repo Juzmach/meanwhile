@@ -32,10 +32,6 @@ var runServer = function(options) {
     mongoose.connection.on('connected', function(){
     });
 
-/*
-    var User = require('../app/models/user');
-
-*/
 
     var pub = __dirname + '/../public';
     app.use(express.static(pub));
@@ -62,7 +58,14 @@ var runServer = function(options) {
     //var persistenceHandler = require('./persistence');
 
     //routes
+    //var url = "http://www.mcdonalds.fi/fi.html";
+    //var url = "http://www.hs.fi/";
+    var url = "http://www.cloetta.fi/";
+
     require('./routes')(app);
+    var crawler = require('./crawler');
+    crawler.crawl(app, url);
+
 
     //everything sockets related
     //require('./sockets').initCons(io, passport, mongooseSessionStore, persistenceHandler);
