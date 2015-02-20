@@ -32,18 +32,10 @@ var runServer = function(options) {
     mongoose.connection.on('connected', function(){
     });
 
-/*
-    var User = require('../app/models/user');
-
-*/
-
     var pub = __dirname + '/../public';
     app.use(express.static(pub));
     //app.use(bodyParser.urlencoded({extended:true}));
 
-
-    //Use jade
-    //app.set('view engine', 'jade');
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/../public/');
 
@@ -58,15 +50,7 @@ var runServer = function(options) {
         console.log("server running..");
     });
 
-    //var io = require('socket.io')(server);
-
-    //var persistenceHandler = require('./persistence');
-
-    //routes
     require('./routes')(app);
-
-    //everything sockets related
-    //require('./sockets').initCons(io, passport, mongooseSessionStore, persistenceHandler);
 
     return {app: app, server: server, mongConn: mongooseConn};
 
