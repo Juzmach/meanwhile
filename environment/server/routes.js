@@ -17,27 +17,27 @@ module.exports = function(app) {
         var placeholder = [
             {
                 name: 'ebin',
-                imageUrl: 'http://i.imgur.com/39FeKXX.jpg'
+                imageUrl: 'http://kuvaton.com/kuvei/kurret.jpg'
             },
             {
                 name: 'ses',
-                imageUrl: 'http://i.imgur.com/pF3kAjQ.gif'
+                imageUrl: 'http://kuvaton.com/kuvei/icebergs_blue_ice_after_it_has_flipped.jpg'
             },
             {
                 name: 'tuosta',
-                imageUrl: 'http://i.imgur.com/sAl3Kht.jpg'
+                imageUrl: 'http://kuvaton.com/kuvei/i_got_a_new_kadabra_plushie.jpg'
             },
             {
                 name: 'oispa',
-                imageUrl: 'http://i.imgur.com/eCaGqmX.jpg'
+                imageUrl: 'http://kuvaton.com/kuvei/wtf_19.jpg'
             },
             {
                 name: 'eispä',
-                imageUrl: 'http://i.imgur.com/Vbjrhbl.jpg'
+                imageUrl: 'http://kuvaton.com/kuvei/godzilla_3.jpg'
             },
             {
                 name: 'test',
-                imageUrl: 'http://i.imgur.com/weXsTcY.gif'
+                imageUrl: 'http://kuvaton.com/kuvei/fail_21.jpg'
     	}];
 
         res.json(placeholder);
