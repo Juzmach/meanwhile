@@ -5,24 +5,16 @@
     "mocha": "*",
     "should": "*",
     "express": "*",
-    "express-session": "*",
     "cookie-parser": "*",
     "mongoose": "*",
-    "redis": "*",
     "body-parser": "*",
     "supertest": "*",
-    "jade": "*",
-    "request": "*",
-    "passport": "*",
-    "irc": "*",
-    "socket.io": "*",
-    "socket.io-client": "*",
+    "request": "*"
   },
 
   "scripts": {
     "start": "nodemon run.js",
-    "test": "../node_modules/.bin/mocha",
-    "travistest": "./node_modules/.bin/mocha"
+    "test": "../node_modules/.bin/mocha"
   }
 
 }
