@@ -14,10 +14,5 @@ angular.module('meanwhile').controller("DiscoveryController", ['$scope', '$http'
             });
     };
 
-    $scope.joinChannel = function(channel) {
-        console.log('called it!');
-        command.send('join ' + channel); //Join default channel while developing
-    };
-
     $scope.getContent();
 }]);

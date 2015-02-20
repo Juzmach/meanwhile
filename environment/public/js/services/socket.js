@@ -3,9 +3,6 @@ angular.module('meanwhile').factory('socket', function($rootScope) {
     var socket = io(address);
     socket.on('message', function(message) {
         console.log(message);
-        $rootScope.$apply(function() {
-            $rootScope.$broadcast(message.command, message);
-        });
     });
 
     socket.on('disconnect', function() {
@@ -17,20 +14,7 @@ angular.module('meanwhile').factory('socket', function($rootScope) {
         location.reload();
     });
 
-    var channels = [];
-
     return {
-        listenChannel: function(channel) {
-            channels.push(channel);
-            socket.on(channel, function(data) {
-                $rootScope.$apply(function() {
-                    $rootScope.$broadcast(channel, data);
-                });
-            });
-        },
-
-        getChannels: function() { return channels; },
-
         emit: function(event, data, callback) {
             socket.emit(event, data, function() {
                 var args = arguments;
@@ -40,10 +24,6 @@ angular.module('meanwhile').factory('socket', function($rootScope) {
                     }
                 });
             });
-        },
-
-        send: function(object) {
-            socket.send(object);
         }
     };
 });
