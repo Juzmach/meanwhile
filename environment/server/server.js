@@ -44,7 +44,8 @@ var runServer = function(options) {
 
     //Use jade
     //app.set('view engine', 'jade');
-    app.set('views', __dirname + '/../app/views');
+    app.set('view engine', 'ejs');
+
 
     //Always use pretty html.
     app.locals.pretty = true;
