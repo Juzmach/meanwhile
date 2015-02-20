@@ -26,15 +26,12 @@ var runServer = function(options) {
         console.log('jeejee');
     });
 
-
     var pub = __dirname + '/../public';
     app.use(express.static(pub));
     //app.use(bodyParser.urlencoded({extended:true}));
 
-
-    //Use jade
-    //app.set('view engine', 'jade');
     app.set('view engine', 'ejs');
+    app.set('views', __dirname + '/../public/');
 
 
     //Always use pretty html.
@@ -62,11 +59,6 @@ var runServer = function(options) {
         newSite.save(function (err, newSite) {
             if (err) console.log(err);
         });
-    }
-    
-    //everything sockets related
-    //require('./sockets').initCons(io, passport, mongooseSessionStore, persistenceHandler);
-
     return {app: app, server: server, mongConn: mongooseConn};
 
 }

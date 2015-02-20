@@ -11,6 +11,9 @@
         <script src="/libs/angular-deckgrid/angular-deckgrid.js"></script>
         <script src="/libs/angular-bootstrap/ui-bootstrap.js"></script>
         <script src="/js/app.js"></script>
+        <script src="/js/directives/pinterest.js"></script>
+        <script src="/js/controllers/SearchController.js"></script>
+        <script src="/js/controllers/PinterestController.js"></script>
     </head>
     <body>
         <div class="jumbotron" ng-controller="SearchController">
@@ -34,7 +37,7 @@
             </div>
         </div>
 
-	<pinterest> 
+	<pinterest ng-controller="PinterestController as pinCtrl">
 		
 	</pinterest>
     </body>
