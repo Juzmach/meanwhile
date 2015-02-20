@@ -6,7 +6,9 @@ do
 done
 echo "$(date) - connected successfully"
 mkdir -p src/public/libs
-cp -r bower_components/ src/public/libs
+cp -r bower_components/* src/public/libs/
+ls src/public/libs
+ls src/public/
 cd src
 npm start
 
