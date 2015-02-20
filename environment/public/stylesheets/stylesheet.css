@@ -6,3 +6,38 @@
     color: white;
     text-align: center;
 }
+
+
+.deckgrid[deckgrid]::before {
+    /* Specifies that the grid should have a maximum of 4 columns. Each column will have the classes 'column' and 'column-1-4' */
+    content: '4 .column.column-1-4';
+    font-size: 0; /* See https://github.com/akoenig/angular-deckgrid/issues/14#issuecomment-35728861 */
+    visibility: hidden;
+}
+
+.deckgrid .column {
+    float: left;
+}
+
+.deckgrid .column-1-4 {
+    width: 25%;
+    overflow: hidden;
+}
+
+.pinterest-picture {
+    max-width: 95%;
+    height: auto;
+    border: 2px solid white;
+}
+
+.pinterest-container {
+	margin: 10px;
+    background: rgb(52,152,219);
+    border-radius: 6px;
+	overflow: hidden;
+	text-align: center;
+    padding: 1em;
+    padding-top: 0;
+    padding-bottom: 1.5em;
+    color: white;
+}

@@ -2,15 +2,17 @@
  * Created by Tsarpf on 2/14/15.
  */
 
-angular.module('meanwhile').controller("DiscoveryController", ['$scope', '$http', 'command', function($scope, $http, command) {
+angular.module('meanwhile').controller("PinterestController", ['$scope', '$http', function($scope, $http) {
     $scope.results = [];
     $scope.loaded = false;
     $scope.getContent = function() {
-        $http.get('/activity/').
+        $http.get('/pinterest/').
             success(function(data, status, headers, config) {
                 $scope.results = data;
+		console.log(data);
             }).
             error(function(data, status, headers, config) {
+		console.log(data);
             });
     };
 
