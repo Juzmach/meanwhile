@@ -1,3 +1,4 @@
+docker pull dockerfile/mongodb
 cd mongodb
 ./start.sh
 cd ../
