@@ -34,15 +34,12 @@ var runServer = function(options) {
     mongoose.connection.on('connected', function(){
     });
 
-
     var pub = __dirname + '/../public';
     app.use(express.static(pub));
     //app.use(bodyParser.urlencoded({extended:true}));
 
-
-    //Use jade
-    //app.set('view engine', 'jade');
     app.set('view engine', 'ejs');
+    app.set('views', __dirname + '/../public/');
 
 
     //Always use pretty html.
@@ -70,9 +67,6 @@ var runServer = function(options) {
             if (err) console.log(err);
         });
     } 
-
-    //everything sockets related
-    //require('./sockets').initCons(io, passport, mongooseSessionStore, persistenceHandler);
 
     return {app: app, server: server, mongConn: mongooseConn};
 
