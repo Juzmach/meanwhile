@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+    h1 Meanwhile Pre-Alpha
+
+    div(ng-controller="JokuController as jokuCtrl")
+
+        tabset(type="'tabs'")
+
+            tab(class="", heading="Discover")
+                ts-discovery(ng-controller="DiscoveryController as discoCtrl")

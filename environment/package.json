@@ -1,0 +1,33 @@
+{
+  "name": "Tsatter",
+  "description": "Chat thingy",
+  "dependencies": {
+    "mocha": "*",
+    "should": "*",
+    "express": "*",
+    "express-session": "*",
+    "cookie-parser": "*",
+    "mongoose": "*",
+    "mongoose-session-store": "*",
+    "hiredis": "*",
+    "redis": "*",
+    "body-parser": "*",
+    "supertest": "*",
+    "jade": "*",
+    "request": "*",
+    "passport": "*",
+    "irc": "*",
+    "passport.socketio": "*",
+    "passport-local-mongoose": "*",
+    "socket.io": "*",
+    "socket.io-client": "*",
+    "xmlhttprequest": "*"
+  },
+
+  "scripts": {
+    "start": "nodemon run.js",
+    "test": "../node_modules/.bin/mocha",
+    "travistest": "./node_modules/.bin/mocha"
+  }
+
+}
