@@ -1,14 +1,21 @@
 var http = require('http');
 
-var crawl = function(app, url) {
+var crawl = function(url) {
     http.get(url, function(res) {
-        var chunk = "";
-        res.on('data', function(data) {
-            chunk += data;
-        });
-        res.on('end', function() {
-            return findLogo(chunk, getBaseUrl(url));
-        });
+        try {
+            var chunk = "";
+            res.on('data', function(data) {
+                chunk += data;
+            });
+            res.on('end', function() {
+                return findLogo(chunk, getBaseUrl(url));
+            });
+            res.on('error', function(err) {
+                console.log('panic panic panic ' + err);
+            });
+        } catch (e) {
+            console.log(e);
+        }
     });
 }
 
@@ -22,7 +29,7 @@ var getBaseUrl = function(url) {
 
 var findLogo = function(data, url) {
     var logoFoundAt = data.indexOf('logo');
-    var linkFoundAt = data.indexOf("<img src=\"", logoFoundAt-150);
+    var linkFoundAt = data.indexOf("<img src=\"", logoFoundAt-150); //just a random number, let's hope we don't run into longer links
     var linkEndsAt = data.indexOf('"', linkFoundAt+10);
     var link = data.slice(linkFoundAt+"<img src=\"".length, linkEndsAt);
     if (link.indexOf('http') == -1) 
