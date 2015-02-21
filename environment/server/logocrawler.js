@@ -69,11 +69,15 @@ if(data.indexOf(substr) > -1) {
 }
 
 var findApache = function  (data,url) {
-     var options = {method: 'HEAD', host: 'solinor.fi', port: 80, path: '/'};
+     var options = {method: 'HEAD', host: 'neutrium.net', port: 80, path: '/'};
 var req = http.request(options, function(res) {
-    if(JSON.stringify(res.headers).indexOf("Apache")){
-        console.log("APACHEEEE")
-    }
+ //   console.log(JSON.stringify(res.headers));
+    var myJSon = JSON.stringify(res.headers);
+    var serverName = JSON.parse(myJSon);
+    console.log(serverName.server);
+ //   if(myJSon.indexOf("Apache")){
+   //     console.log("APACHEEEE")
+  //  }
   }
 );
 req.end();
