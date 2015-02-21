@@ -1,17 +1,20 @@
 var http = require('http');
 
 var crawl = function(url) {
+    
     http.get(url, function(res) {
         try {
+            console.log('i work');
             var chunk = "";
             res.on('data', function(data) {
                 chunk += data;
             });
             res.on('end', function() {
-                findApache(chunk,getBaseUrl(url));
-                findWP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
-                findPHP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
-                return findLogo(chunk, getBaseUrl(url));
+                return {
+                    name: findName(url),
+                    logo :findLogo(chunk, getBaseUrl(url)),
+                    techs: findTechs(chunk, url)
+                };
             });
             res.on('error', function(err) {
                 console.log('panic panic panic ' + err);
@@ -20,6 +23,10 @@ var crawl = function(url) {
             console.log(e);
         }
     });
+}
+
+var findName = function(url) {
+    var headeri = headerit(url);
 }
 
 var getBaseUrl = function(url) {
@@ -44,33 +51,41 @@ var findLogo = function(data, url) {
     
 }
 
-var headerit =function(data,url){
- var options = {method: 'HEAD', host: 'solinor.com', port: 80, path: '/'};
-var req = http.request(options, function(res) {
-    console.log((res.headers));
+var findTechs = function (data, url) {
+    var techs = [];
+    if (findBuzzword(data, url, "WordPress")) techs.append("WordPress");
+    if (findBuzzword(data, url, "PHP")) techs.append("PHP");
+    if (findApache(data, url)) techs.append("Apache");
+    return techs;
+}
+
+
+//
+var headerit = function(url){
+    var newurl = url.slice(url.indexOf(".")+1, url.indexOf('/', url.indexOf("."))); //strips off http://www.
+    console.log(newurl);
+    var options = {method: 'HEAD', host: newurl, port: 80, path: '/'};
+    var req = http.request(options, function(res) {
+        console.log((res.headers));
+        return res.headers;
   }
 );
 req.end();
 }
 
-var findWP = function(data,url) { //katsoo onko lähde koodissa WPressiä
+var findBuzzword = function(data,url, word) { //katsoo onko lähde koodissa WPressiä
 var substr ="WordPress"
-if(data.indexOf(substr) > -1) {
-    console.log("trueWP") //tähän joku palautus
+if(data.indexOf(word) > -1) {
+    console.log("true") //tähän joku palautus
+    return true;
 }else{
-     console.log("falseWP") }
-}
-var findPHP = function(data,url) { //katsoo onko .php tiedostoja
-var substr =".php"
-if(data.indexOf(substr) > -1) {
-    console.log("truePHP") 
-}else{
-     console.log("falsePHP ")}
+     console.log("false") }
+     return false;
 }
 
 var findApache = function  (data,url) {
      var options = {method: 'HEAD', host: 'neutrium.net', port: 80, path: '/'};
-var req = http.request(options, function(res) {
+var req = method.request(options, function(res) {
  //   console.log(JSON.stringify(res.headers));
     var myJSon = JSON.stringify(res.headers);
     var serverName = JSON.parse(myJSon);
