@@ -13,9 +13,10 @@ module.exports = function(app) {
 	var id = req.params.id //TODO: get from db with this id
 
 	var obj = {
-		id: req.params.id
-	 	name: 'test number ' + idx,
-		imageUrl: getUrl(idx)	
+		_id: req.params.id,
+	 	siteName: 'test number ' + idx,
+		logo: getUrl(idx),
+        techs: getTech(idx)
 	}
     });
 
@@ -52,7 +53,7 @@ var techs = [
 
 var getTech = function getTech(idx){
     var idx = Math.floor((Math.random() * (urls.length - 1)));
-    return tech[idx];
+    return techs[idx];
 }
 
 var urls = [
