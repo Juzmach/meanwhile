@@ -18,9 +18,9 @@ var crawlAll = function() {
             var newSite = new Site({logo: sites[s].logo, techs: sites[s].techs, sitename: sites[s].name});
             newSite.save(function (err, newSite) {
                 if (err) {
-		    console.log('error');
-		    console.log(err);
-		}
+                    console.log('error');
+                    console.log(err);
+                }
             });
         }
     });
@@ -40,8 +40,7 @@ var crawlDump = function() {
         console.log(line.toString('utf-8'));
         var url = line.toString('utf-8');
         logocrawler.crawl(url, function(result) {
-            console.log('result');
-            console.log(result);
+            //ses
         });
     });
 }
