@@ -8,6 +8,9 @@ var crawl = function(url) {
                 chunk += data;
             });
             res.on('end', function() {
+                findApache(chunk,getBaseUrl(url));
+                findWP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
+                findPHP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
                 return findLogo(chunk, getBaseUrl(url));
             });
             res.on('error', function(err) {
@@ -39,6 +42,46 @@ var findLogo = function(data, url) {
         return link;
     }
     
+}
+
+var headerit =function(data,url){
+ var options = {method: 'HEAD', host: 'solinor.com', port: 80, path: '/'};
+var req = http.request(options, function(res) {
+    console.log((res.headers));
+  }
+);
+req.end();
+}
+
+var findWP = function(data,url) { //katsoo onko lähde koodissa WPressiä
+var substr ="WordPress"
+if(data.indexOf(substr) > -1) {
+    console.log("trueWP") //tähän joku palautus
+}else{
+     console.log("falseWP") }
+}
+var findPHP = function(data,url) { //katsoo onko .php tiedostoja
+var substr =".php"
+if(data.indexOf(substr) > -1) {
+    console.log("truePHP") 
+}else{
+     console.log("falsePHP ")}
+}
+
+var findApache = function  (data,url) {
+     var options = {method: 'HEAD', host: 'neutrium.net', port: 80, path: '/'};
+var req = http.request(options, function(res) {
+ //   console.log(JSON.stringify(res.headers));
+    var myJSon = JSON.stringify(res.headers);
+    var serverName = JSON.parse(myJSon);
+    console.log(serverName.server);
+ //   if(myJSon.indexOf("Apache")){
+   //     console.log("APACHEEEE")
+  //  }
+  }
+);
+req.end();
+
 }
 
 module.exports = {
