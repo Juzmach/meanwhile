@@ -6,10 +6,14 @@ var crawl = function(app, urls) {
 
     for (var u in urls)
     {
-        var site = logocrawler.crawl(urls[u]);
+        var site;
+        if (urls[u].substr('https') != -1) {
+        } else {
+            var site = logocrawler.crawl(urls[u]);
+        }
         if (site) 
         {
-            siteObjects.append({logo: site});
+            siteObjects.append(site);
         } 
     }
 

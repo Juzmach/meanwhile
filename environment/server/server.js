@@ -45,7 +45,7 @@ var runServer = function(options) {
 
     //var url = "http://www.mcdonalds.fi/fi.html";
     //var url = "http://www.hs.fi/";
-    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/"];
+    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/", "https://github.com"];
 
     require('./routes')(app);
 
@@ -53,8 +53,7 @@ var runServer = function(options) {
     var sites = crawler.crawl(app, urls);
     for (var site in sites)
     {
-        console.log('i work');
-        var newSite = new Site({logo: site.logo});
+        var newSite = new Site({logo: site.logo, techs: site.techs, sitename: site.name});
         newSite.save(function (err, newSite) {
             if (err) console.log(err);
         });
