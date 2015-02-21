@@ -8,6 +8,17 @@ module.exports = function(app) {
         res.render('partials/' + name);
     });
 
+    app.get('/pinterest/:id', function(req, res, next) {
+	//TODO: find data from db	
+	var id = req.params.id //TODO: get from db with this id
+
+	var obj = {
+		id: req.params.id
+	 	name: 'test number ' + idx,
+		imageUrl: getUrl(idx)	
+	}
+    });
+
     app.get('/pinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;

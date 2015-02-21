@@ -27,7 +27,7 @@ var runServer = function(options) {
 
     var pub = __dirname + '/../public';
     app.use(express.static(pub));
-    //app.use(bodyParser.urlencoded({extended:true}));
+    app.use(bodyParser.urlencoded({extended:true}));
 
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/../public/');
