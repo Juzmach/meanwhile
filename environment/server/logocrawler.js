@@ -3,46 +3,67 @@ var request = require('request');
 
 var crawl = function(url, callback) {
 
+    console.log('trying: ' + url);
     request(url, function(error, response, body) {
         if(!error && response.statusCode == 200) {
             var name, logo, techs;
 
-            findName(url, function(nimi) {
+                    console.log('hei');
+            findName(body, function(nimi) {
                 name = nimi;
+                    console.log('hei');
                 logo = findLogo(body, getBaseUrl(url));
-                techs = findTechs(body, url, function(techArray) {
+                    console.log('hei');
+                findTechs(body, url, function(frontArray, backArray) {
+                    console.log('hei');
                     callback({
                         name: name, 
                         logo: logo, 
-                        techs: techArray
+                        frontend: frontArray,
+                        backend: backArray
                     });
                 });
             });
         }
         else {
-            console.log('request error');
-            //console.log(error);
+            console.log(error);
             //console.log(response.statusCode);
         }
     });
 }
 
-var findName = function(url, callback) {
-    headerit(url, function(headerit) {
-       console.log(headerit); 
-       //
-       //Parsi nimi headereista
-       var nimi = "";
+var findName = function(data, callback) {
+       var index = data.indexOf('<head>');
+       var nameIndex = data.indexOf('<title>');
+       var endIndex = data.indexOf('<', nameIndex+1);
+
+       var nimi = data.slice(nameIndex+"<title>".length, endIndex) ;
+       var replacables = ["Etusivu", ".fi", ".com" ];
+       for (var i in replacables)
+       {
+            nimi = nimi.replace(replacables[i], '');
+       }
+
+       console.log(nimi);
 
        callback(nimi);
-   });
 }
 
 var getBaseUrl = function(url) {
+    if (url.indexOf('https') >= 0 && url.indexOf('/', "https://".length+1) == -1)
+    {
+        return url;
+    }
+    if (url.indexOf('https') >= 0)
+    {
+        return url.slice(0, url.indexOf("/", "https://".length)+1);
+    }
     if (url.indexOf('http') >= 0)
     {
-        return url.slice(0, url.indexOf("/", "http://".length)+1);
+        return url.slice(0, url.indexOf("/", "http://".length));
     }
+    
+    
     return url.slice(0, url.indexOf('/'));
 }
 
@@ -54,17 +75,15 @@ var getUrlWithOutHTTP = function(url){
          return urli;
     }
 
-var getSiteName = function(data) {
-
-}
 
 var findLogo = function(data, url) {
     var logoFoundAt = data.indexOf('logo');
     var linkFoundAt = data.indexOf("<img src=\"", logoFoundAt-150); //just a random number, let's hope we don't run into longer links
     var linkEndsAt = data.indexOf('"', linkFoundAt+10);
     var link = data.slice(linkFoundAt+"<img src=\"".length, linkEndsAt);
-    if (link.indexOf('http') == -1) 
+    if (link.indexOf('http') == -1) ///&& link.indexOf('www') == -1
     {
+        console.log(url + link);
         return url+link;
     } else {
         return link;
@@ -73,13 +92,15 @@ var findLogo = function(data, url) {
 }
 
 var findTechs = function (data, url, callback) {
-    var techs = [];
-    if (findBuzzword(data, url, "WordPress")) techs.push("WordPress");
-    if (findBuzzword(data, url, "PHP")) techs.push("PHP");
+    var front= [];
+    var back = [];
+    if (findBuzzword(data, url, "WordPress")) front.push("WordPress");
+    if (findBuzzword(data, url, "PHP")) front.push("PHP");
+    if (findBuzzword(data, url, "angular")) front.push("AngularJS");
 
     findServer(data, url, function(server) {
-        techs.push(server);
-        callback(techs);
+        back.push(server);
+        callback(front, back);
     });
 }
 
@@ -92,12 +113,9 @@ var headerit = function(url, callback) {
 }
 
 var findBuzzword = function(data,url, word) { //katsoo onko lähde koodissa WPressiä
-    var substr ="WordPress";
     if(data.indexOf(word) > -1) {
-        console.log("true") //tähän joku palautus
             return true;
-    } else{
-        console.log("false") }
+    } 
     return false;
 }
 
@@ -113,14 +131,6 @@ var findServer = function  (data,url, callback) {
         console.log(response.headers.server);
         callback(response.headers.server);
     });
-}
-
-var findAngularJS = function(data,url) { 
-var substr ="angular"
-if(data.indexOf(substr) > -1) {
-    console.log("trueAngular") 
-}else{
-     console.log("falseAngular ")}
 }
 
 

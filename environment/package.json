@@ -6,7 +6,6 @@
     "should": "*",
     "express": "*",
     "cookie-parser": "*",
-    "https": "*",
     "mongoose": "*",
     "byline": "~4.2.1",
     "ejs": "*",
