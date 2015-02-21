@@ -18,27 +18,25 @@ module.exports = function(app) {
         var to = req.query.to;
         console.log(from);
         console.log(to);
-        var foundsites;
-
+        var arr = [];
         Site.find(function (err, sites) {
-            console.log(sites.length);
-            var arr = [];
-            for(var i in sites) {
-            if (i > to) break;
-            var obj = {
-                _id: i,
-                siteName: sites[i].name,
-                logo: sites[i].logo
-            };
-            arr.push(obj);
-        }
+            console.log("fouond : " + sites.length);
+            for(var i = from; i++; i<to) {
+                if (i >= sites.length) break;
+                console.log(sites[i].logo);
+                var obj = {
+                    _id: i,
+                    siteName: sites[i].sitename,
+                    logo: sites[i].logo
+                };
+                arr.push(obj);
+            }
             res.json(arr);
-  
         });
-            //TODO: get data from database or something
 
-    });
-
+        
+    }); 
+    
     app.get('/mockpinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
