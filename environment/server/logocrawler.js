@@ -59,7 +59,7 @@ var findTechs = function (data, url) {
     var techs = [];
     if (findBuzzword(data, url, "WordPress")) techs.append("WordPress");
     if (findBuzzword(data, url, "PHP")) techs.append("PHP");
-    if (findApache(data, url)) techs.append("Apache");
+    techs.append(findServer(data, url));
     return techs;
 }
 
@@ -86,21 +86,21 @@ if(data.indexOf(word) > -1) {
      console.log("false") }
      return false;
 }
+var getUrlWithOutHTTP = function(url){
+        var parsettu = url.split("/");
+        var urli = parsettu[2];
+         return urli;
+    }
 
-var findApache = function  (data,url) {
-     var options = {method: 'HEAD', host: 'neutrium.net', port: 80, path: '/'};
-var req = method.request(options, function(res) {
- //   console.log(JSON.stringify(res.headers));
+var findServer = function  (data,url) {
+     var options = {method: 'HEAD', host: getUrlWithOutHTTP((url)), port: 80, path: '/'};
+var req = http.request(options, function(res) {
     var myJSon = JSON.stringify(res.headers);
     var serverName = JSON.parse(myJSon);
-    console.log(serverName.server);
- //   if(myJSon.indexOf("Apache")){
-   //     console.log("APACHEEEE")
-  //  }
+    return serverName.server;
   }
 );
 req.end();
-
 }
 
 module.exports = {
