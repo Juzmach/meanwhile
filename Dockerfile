@@ -5,6 +5,9 @@ RUN useradd -ms /bin/bash nonroot
 ADD environment/package.json /home/nonroot/environment/
 WORKDIR /home/nonroot/environment
 RUN npm install
+git clone git://github.com/jahewson/node-byline.git
+cd node-byline
+npm link
 RUN chown -R nonroot:nonroot /home/nonroot/
 USER nonroot
 
