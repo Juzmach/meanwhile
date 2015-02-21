@@ -12,9 +12,9 @@ angular.module('meanwhileControllers').controller("PinterestController", ['$scop
     var to = from + increment;
 
     $scope.getContent = function() {
-	console.log('oh hi');
+	    console.log('oh hi');
 	var reqObj = {
-		params: {from: from, to: to, searchTerm: $scope.searchTerm}
+		params: {from: from, to: to}
 	}
 	from += increment;
 	to += increment;
@@ -22,13 +22,13 @@ angular.module('meanwhileControllers').controller("PinterestController", ['$scop
         $http.get('/mockpinterest/', reqObj).
             success(function(data, status, headers, config) {
                 $scope.results = $scope.results.concat(data);
-		console.log(data);
+		        console.log(data);
             }).
             error(function(data, status, headers, config) {
-		console.log('error');
-		console.log(data);
+		        console.log('error');
+		        console.log(data);
             });
     };
-    
+
     $scope.getContent();
 }]);
