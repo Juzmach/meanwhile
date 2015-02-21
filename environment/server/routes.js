@@ -19,9 +19,10 @@ module.exports = function(app) {
 	var arr = []
 	for(var idx = from; idx < to; idx++) {
 		var obj = {
-			id: idx,
-			name: 'test number ' + idx,
-			imageUrl: getUrl(idx)
+			_id: idx,
+			siteName: 'test number ' + idx,
+			logo: getUrl(idx),
+            techs: [getTech()]
 		}	
 		arr.push(obj);
 	}
@@ -29,6 +30,19 @@ module.exports = function(app) {
         res.json(arr);
     });
 };
+
+var techs = [
+    'AngularJS',
+    'Node.js',
+    'Ruby On Rails',
+    'Django',
+    'Java'
+];
+
+var getTech = function getTech(idx){
+    var idx = Math.floor((Math.random() * (urls.length - 1)));
+    return tech[idx];
+}
 
 var urls = [
 	'http://kuvaton.com/kuvei/kurret.jpg',
@@ -38,8 +52,8 @@ var urls = [
 	'http://kuvaton.com/kuvei/godzilla_3.jpg',
 	'http://kuvaton.com/kuvei/fail_21.jpg'
 	
-]
+];
 var getUrl = function getUrl(idx) {
 	var idx = Math.floor((Math.random() * (urls.length - 1)));
 	return urls[idx];
-}
+};
