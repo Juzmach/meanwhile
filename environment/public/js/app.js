@@ -1,4 +1,5 @@
-var meanwhileControllers = angular.module('meanwhileControllers', []);
+angular.module('meanwhileControllers', ['infinite-scroll']);
+
 var app = angular.module('meanwhile', [
     'ngAnimate',
     'ui.bootstrap',

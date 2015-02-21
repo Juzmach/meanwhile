@@ -20,8 +20,8 @@
         <script src="/js/controllers/PinterestController.js"></script>
         <script src="/js/directives/jumbotron.js"></script>
     </head>
-    <body>
+    <body infinite-scroll="pinInfinite()" infinite-scroll-distance="3">
         <jumbotron></jumbotron>
-        <div ng-view></div>
+        <div ng-view infinite-scroll="pinInfinite()"></div>
     </body>
 </html>
