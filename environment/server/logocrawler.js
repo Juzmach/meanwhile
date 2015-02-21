@@ -13,9 +13,9 @@ var crawl = function(url, callback) {
             res.on('end', function() {
                 console.log("end");
                 callback({
-                    //name: findName(url),
-                    //logo: findLogo(chunk, getBaseUrl(url)),
-                    //techs: findTechs(chunk, url)
+                    name: findName(url),
+                    logo: findLogo(chunk, getBaseUrl(url)),
+                    techs: findTechs(chunk, url)
                 });
             });
             res.on('error', function(err) {
@@ -60,9 +60,9 @@ var findLogo = function(data, url) {
 
 var findTechs = function (data, url) {
     var techs = [];
-    if (findBuzzword(data, url, "WordPress")) techs.append("WordPress");
-    if (findBuzzword(data, url, "PHP")) techs.append("PHP");
-    techs.append(findServer(data, url));
+    if (findBuzzword(data, url, "WordPress")) techs.push("WordPress");
+    if (findBuzzword(data, url, "PHP")) techs.push("PHP");
+    techs.push(findServer(data, url));
     return techs;
 }
 
