@@ -24,8 +24,6 @@ module.exports = function(app) {
     app.get('/pinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
-	console.log(from);
-	console.log(to);
 
         //TODO: get data from database or something
 
