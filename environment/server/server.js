@@ -16,14 +16,13 @@ var runServer = function(options) {
     var mongooseConn;
     var connect = function() {
         var options = {server: {socketOptions: {keepAlive: 1}}};
-        //mongooseConn = mongoose.createConnection("mongodb://localhost/", options);
         mongooseConn = mongoose.connect("mongodb://db_1/", options);
     };
     connect();
     mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
     mongoose.connection.on('disconnected', connect);
     mongoose.connection.on('connected', function(){
-        console.log('jeejee');
+	console.log('mongodb connected');
     });
 
     var pub = __dirname + '/../public';
@@ -46,7 +45,7 @@ var runServer = function(options) {
 
     //var url = "http://www.mcdonalds.fi/fi.html";
     //var url = "http://www.hs.fi/";
-    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/"];
+    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/", "https://github.com"];
 
     require('./routes')(app);
 
@@ -54,8 +53,7 @@ var runServer = function(options) {
     var sites = crawler.crawl(app, urls);
     for (var site in sites)
     {
-        console.log('i work');
-        var newSite = new Site({logo: site.logo});
+        var newSite = new Site({logo: site.logo, techs: site.techs, sitename: site.name});
         newSite.save(function (err, newSite) {
             if (err) console.log(err);
         });
