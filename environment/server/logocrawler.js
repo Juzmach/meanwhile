@@ -41,10 +41,17 @@ var findName = function(url, callback) {
 var getBaseUrl = function(url) {
     if (url.indexOf('http') >= 0)
     {
-        return url.slice(0, url.indexOf("/", "http://".length));
+        return url.slice(0, url.indexOf("/", "http://".length)+1);
     }
     return url.slice(0, url.indexOf('/'));
 }
+var getUrlWithOutHTTP = function(url){
+        var parsettu = url.split("/");
+        console.log(parsettu);
+        var urli = parsettu[2];
+        console.log(urli);
+         return urli;
+    }
 
 var getSiteName = function(data) {
 
@@ -75,8 +82,6 @@ var findTechs = function (data, url, callback) {
     });
 }
 
-
-//
 var headerit = function(url, callback) {
     request(url, function(error, response, body) {
         console.log('server');
@@ -94,6 +99,7 @@ var findBuzzword = function(data,url, word) { //katsoo onko lähde koodissa WPre
         console.log("false") }
     return false;
 }
+
 var getUrlWithOutHTTP = function(url){
     var parsettu = url.split("/");
     var urli = parsettu[2];
@@ -107,6 +113,15 @@ var findServer = function  (data,url, callback) {
         callback(response.headers.server);
     });
 }
+
+var findAngularJS = function(data,url) { 
+var substr ="angular"
+if(data.indexOf(substr) > -1) {
+    console.log("trueAngular") 
+}else{
+     console.log("falseAngular ")}
+}
+
 
 module.exports = {
     crawl: crawl
