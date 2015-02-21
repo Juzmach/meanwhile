@@ -45,6 +45,7 @@ var getBaseUrl = function(url) {
     }
     return url.slice(0, url.indexOf('/'));
 }
+
 var getUrlWithOutHTTP = function(url){
         var parsettu = url.split("/");
         console.log(parsettu);
