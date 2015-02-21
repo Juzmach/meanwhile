@@ -3,14 +3,19 @@ var request = require('request');
 
 var crawl = function(url, callback) {
 
+    console.log('trying: ' + url);
     request(url, function(error, response, body) {
         if(!error && response.statusCode == 200) {
             var name, logo, techs;
 
+                    console.log('hei');
             findName(body, function(nimi) {
                 name = nimi;
+                    console.log('hei');
                 logo = findLogo(body, getBaseUrl(url));
+                    console.log('hei');
                 findTechs(body, url, function(frontArray, backArray) {
+                    console.log('hei');
                     callback({
                         name: name, 
                         logo: logo, 
@@ -21,8 +26,7 @@ var crawl = function(url, callback) {
             });
         }
         else {
-            console.log('request error');
-            //console.log(error);
+            console.log(error);
             //console.log(response.statusCode);
         }
     });
