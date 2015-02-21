@@ -46,7 +46,7 @@ var runServer = function(options) {
 
     //var url = "http://www.mcdonalds.fi/fi.html";
     //var url = "http://www.hs.fi/";
-    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/"];
+    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/","http://victorblog.com/metronome/"];
 
     require('./routes')(app);
 

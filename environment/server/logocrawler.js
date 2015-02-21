@@ -1,5 +1,6 @@
 var http = require('http');
 
+
 var crawl = function(url) {
     http.get(url, function(res) {
         try {
@@ -8,9 +9,11 @@ var crawl = function(url) {
                 chunk += data;
             });
             res.on('end', function() {
-                findApache(chunk,getBaseUrl(url));
+                getUrlWithOutHTTP(getBaseUrl(url));
+                findServer(chunk,getBaseUrl(url));
                 findWP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
                 findPHP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
+                findAngularJS(chunk,getBaseUrl(url));
                 return findLogo(chunk, getBaseUrl(url));
             });
             res.on('error', function(err) {
@@ -25,10 +28,17 @@ var crawl = function(url) {
 var getBaseUrl = function(url) {
     if (url.indexOf('http') >= 0)
     {
-        return url.slice(0, url.indexOf("/", "http://".length));
+        return url.slice(0, url.indexOf("/", "http://".length)+1);
     }
     return url.slice(0, url.indexOf('/'));
 }
+var getUrlWithOutHTTP = function(url){
+        var parsettu = url.split("/");
+        console.log(parsettu);
+        var urli = parsettu[2];
+        console.log(urli);
+         return urli;
+    }
 
 var findLogo = function(data, url) {
     var logoFoundAt = data.indexOf('logo');
@@ -42,15 +52,6 @@ var findLogo = function(data, url) {
         return link;
     }
     
-}
-
-var headerit =function(data,url){
- var options = {method: 'HEAD', host: 'solinor.com', port: 80, path: '/'};
-var req = http.request(options, function(res) {
-    console.log((res.headers));
-  }
-);
-req.end();
 }
 
 var findWP = function(data,url) { //katsoo onko lähde koodissa WPressiä
@@ -68,21 +69,24 @@ if(data.indexOf(substr) > -1) {
      console.log("falsePHP ")}
 }
 
-var findApache = function  (data,url) {
-     var options = {method: 'HEAD', host: 'neutrium.net', port: 80, path: '/'};
+var findServer = function  (data,url) {
+     var options = {method: 'HEAD', host: getUrlWithOutHTTP((url)), port: 80, path: '/'};
 var req = http.request(options, function(res) {
- //   console.log(JSON.stringify(res.headers));
     var myJSon = JSON.stringify(res.headers);
     var serverName = JSON.parse(myJSon);
     console.log(serverName.server);
- //   if(myJSon.indexOf("Apache")){
-   //     console.log("APACHEEEE")
-  //  }
   }
 );
 req.end();
-
 }
+var findAngularJS = function(data,url) { 
+var substr ="angular"
+if(data.indexOf(substr) > -1) {
+    console.log("trueAngular") 
+}else{
+     console.log("falseAngular ")}
+}
+
 
 module.exports = {
     crawl: crawl
