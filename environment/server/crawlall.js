@@ -30,7 +30,8 @@ var crawlAll = function() {
 //var dumpUrl = "http://pastebin.com/raw.php?i=Wr10LZyC";
 //var dumpUrl = "http://dump.solinor.com/dump/urldump/net.txt";
 //var dumpUrl = "http://dump.solinor.com/dump/urldump/biz.txt";
-var dumpUrl = "http://pastebin.com/raw.php?i=u9yKnEEP";
+//var dumpUrl = "http://pastebin.com/raw.php?i=u9yKnEEP";
+var dumpUrl = "http://pastebin.com/raw.php?i=Jxzuwqnt"
 var crawlDump = function() {
     var url = "";
 
