@@ -12,7 +12,9 @@ var crawl = function(url, callback) {
             });
             res.on('end', function() {
                 console.log("end");
+                
                 callback({
+                    //name findSiteName //palauttaa titlen.
                     name: findName(url),
                     logo: findLogo(chunk, getBaseUrl(url)),
                     techs: findTechs(chunk, url)
@@ -41,7 +43,9 @@ var getBaseUrl = function(url) {
 }
 
 var getSiteName = function(data) {
-    
+    var nimi =  data.slice( (data.indexOf( "<title>")+7 ) , (data.indexOf("</title>"))) ;
+        console.log(nimi);
+        return nimi;
 }
 
 var findLogo = function(data, url) {
