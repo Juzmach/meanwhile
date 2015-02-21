@@ -21,7 +21,7 @@ module.exports = function(app) {
         var arr = [];
         Site.find(function (err, sites) {
             console.log("fouond : " + sites.length);
-            for(var i = from; i++; i<to) {
+            for(var i = from; i++; i < to) {
                 if (i >= sites.length) break;
                 console.log(sites[i].logo);
                 var obj = {
@@ -36,7 +36,6 @@ module.exports = function(app) {
             res.json(arr);
         });
 
-        
     }); 
     
     app.get('/mockpinterest/', function(req, res, next) {
