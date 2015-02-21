@@ -15,11 +15,19 @@
             </div>
             <div class="row">
                 <h3>Front-End</h3>
-                <p>AngularJS</p>
+                <div ng-repeat="i in card.frontend">
+                    <p>
+                        {{card.frontend[i]}}
+                    </p>
+                </div>
             </div>
             <div class="row">
                 <h3>Back-End</h3>
-                <p>Node.js</p>
+                <div ng-repeat="i in card.backend">
+                    <p>
+                        {{card.backend[i]}}
+                    </p>
+                </div>
             </div>
         </div>
         <div class="col-sm-1">

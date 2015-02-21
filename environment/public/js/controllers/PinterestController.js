@@ -19,7 +19,7 @@ angular.module('meanwhileControllers').controller("PinterestController", ['$scop
 	from += increment;
 	to += increment;
 
-        $http.get('/mockpinterest/', reqObj).
+        $http.get('/pinterest/', reqObj).
             success(function(data, status, headers, config) {
                 $scope.results = $scope.results.concat(data);
 		        console.log(data);

@@ -41,7 +41,7 @@ module.exports = function(app) {
         else {
             var regex = '*' + searchTerm.toLowerCase() + '*';
             var regexp = new RegExp(regex, 'g');
-            Site.find({siteName: regexp}, function (err, sites) {0
+            Site.find({siteName: regexp}, function (err, sites) {
                 console.log("fouond : " + sites.length);
                 for(var i = from; i++; i<to) {
                     if (i >= sites.length) break;
@@ -77,6 +77,22 @@ module.exports = function(app) {
         }
 
         res.json(arr);
+    });
+
+    app.get('/pinterest/:id', function(req, res, next){
+        var id = req.params.id;
+        Site.find({_id: id}, function(err,sites) {
+            console.log("found: " + sites.length);
+            var obj = {
+                _id: i,
+                siteName: sites[0].sitename,
+                logo: sites[0].logo,
+                front: sites[0].frontend,
+                back: sites[0].backend
+            };
+            arr.push(obj);
+            res.json(arr);
+        });
     });
 
 }
