@@ -46,7 +46,7 @@ var runServer = function(options) {
 
     //var url = "http://www.mcdonalds.fi/fi.html";
     //var url = "http://www.hs.fi/";
-    var urls = ["http://www.cloetta.fi/"]; //, "http://www.hs.fi/"];
+    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/"];
 
     require('./routes')(app);
 
@@ -59,6 +59,8 @@ var runServer = function(options) {
         newSite.save(function (err, newSite) {
             if (err) console.log(err);
         });
+    }
+
     return {app: app, server: server, mongConn: mongooseConn};
 
 }
