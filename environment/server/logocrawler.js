@@ -7,14 +7,15 @@ var crawl = function(url, callback) {
         if(!error && response.statusCode == 200) {
             var name, logo, techs;
 
-            findName(url, function(nimi) {
+            findName(body, function(nimi) {
                 name = nimi;
                 logo = findLogo(body, getBaseUrl(url));
-                techs = findTechs(body, url, function(techArray) {
+                findTechs(body, url, function(frontArray, backArray) {
                     callback({
                         name: name, 
                         logo: logo, 
-                        techs: techArray
+                        frontend: frontArray,
+                        backend: backArray
                     });
                 });
             });
@@ -27,15 +28,22 @@ var crawl = function(url, callback) {
     });
 }
 
-var findName = function(url, callback) {
-    headerit(url, function(headerit) {
-       console.log(headerit); 
-       //
-       //Parsi nimi headereista
-       var nimi = "";
+var findName = function(data, callback) {
+       var index = data.indexOf('<head>');
+       var nameIndex = data.indexOf('<title>');
+       var endIndex = data.indexOf('<', nameIndex+1);
+
+       var nimi = data.slice(nameIndex+"<title>".length, endIndex) ;
+       var replacables = ["Etusivu", ".fi", ".com" ];
+       for (var i in replacables)
+       {
+            nimi = nimi.replace(replacables[i], '');
+       }
+
+
+       console.log(nimi);
 
        callback(nimi);
-   });
 }
 
 var getBaseUrl = function(url) {
@@ -53,9 +61,6 @@ var getUrlWithOutHTTP = function(url){
          return urli;
     }
 
-var getSiteName = function(data) {
-
-}
 
 var findLogo = function(data, url) {
     var logoFoundAt = data.indexOf('logo');
@@ -72,13 +77,15 @@ var findLogo = function(data, url) {
 }
 
 var findTechs = function (data, url, callback) {
-    var techs = [];
-    if (findBuzzword(data, url, "WordPress")) techs.push("WordPress");
-    if (findBuzzword(data, url, "PHP")) techs.push("PHP");
+    var front= [];
+    var back = [];
+    if (findBuzzword(data, url, "WordPress")) front.push("WordPress");
+    if (findBuzzword(data, url, "PHP")) front.push("PHP");
+    if (findBuzzword(data, url, "angular")) front.push("AngularJS");
 
     findServer(data, url, function(server) {
-        techs.push(server);
-        callback(techs);
+        back.push(server);
+        callback(front, back);
     });
 }
 
@@ -91,12 +98,9 @@ var headerit = function(url, callback) {
 }
 
 var findBuzzword = function(data,url, word) { //katsoo onko lähde koodissa WPressiä
-    var substr ="WordPress";
     if(data.indexOf(word) > -1) {
-        console.log("true") //tähän joku palautus
             return true;
-    } else{
-        console.log("false") }
+    } 
     return false;
 }
 
@@ -112,14 +116,6 @@ var findServer = function  (data,url, callback) {
         console.log(response.headers.server);
         callback(response.headers.server);
     });
-}
-
-var findAngularJS = function(data,url) { 
-var substr ="angular"
-if(data.indexOf(substr) > -1) {
-    console.log("trueAngular") 
-}else{
-     console.log("falseAngular ")}
 }
 
 

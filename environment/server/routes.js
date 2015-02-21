@@ -16,23 +16,48 @@ module.exports = function(app) {
     app.get('/pinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
+        var searchTerm = req.query.searchTerm;
         console.log(from);
         console.log(to);
         var arr = [];
-        Site.find(function (err, sites) {
-            console.log("fouond : " + sites.length);
-            for(var i = from; i++; i<to) {
-                if (i >= sites.length) break;
-                console.log(sites[i].logo);
-                var obj = {
-                    _id: i,
-                    siteName: sites[i].sitename,
-                    logo: sites[i].logo
-                };
-                arr.push(obj);
-            }
-            res.json(arr);
-        });
+        if(!searchTerm) {
+            Site.find(function (err, sites) {
+                console.log("fouond : " + sites.length);
+                for(var i = from; i++; i<to) {
+                    if (i >= sites.length) break;
+                    console.log(sites[i].logo);
+                    var obj = {
+                        _id: i,
+                        siteName: sites[i].sitename,
+                        logo: sites[i].logo,
+                        front: sites[i].frontend,
+                        back: sites[i].backend
+                    };
+                    arr.push(obj);
+                }
+                res.json(arr);
+            });
+        }
+        else {
+            var regex = '*' + searchTerm.toLowerCase() + '*';
+            var regexp = new RegExp(regex, 'g');
+            Site.find({siteName: regexp}, function (err, sites) {0
+                console.log("fouond : " + sites.length);
+                for(var i = from; i++; i<to) {
+                    if (i >= sites.length) break;
+                    console.log(sites[i].logo);
+                    var obj = {
+                        _id: i,
+                        siteName: sites[i].sitename,
+                        logo: sites[i].logo,
+                        front: sites[i].frontend,
+                        back: sites[i].backend
+                    };
+                    arr.push(obj);
+                }
+                res.json(arr);
+            });
+        }
 
         
     }); 
