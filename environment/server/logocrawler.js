@@ -21,8 +21,8 @@ var crawl = function(url, callback) {
         }
         else {
             console.log('request error');
-            console.log(error);
-            console.log(response.statusCode);
+            //console.log(error);
+            //console.log(response.statusCode);
         }
     });
 }

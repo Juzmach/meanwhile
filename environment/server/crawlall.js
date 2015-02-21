@@ -1,6 +1,9 @@
 var logocrawler = require('./logocrawler');
 var mongoose = require('mongoose'),
     sitemodel = require('../models/site'),
+    fs = require('fs'),
+    byline = require('byline'),
+    request = require('request'),
     Site = mongoose.model('Site');
 
 var crawlAll = function() {
@@ -23,6 +26,26 @@ var crawlAll = function() {
     });
 }
 
+var dumpUrl = "http://dump.solinor.com/dump/urldump/com.txt";
+//var dumpUrl = "http://pastebin.com/raw.php?i=Wr10LZyC";
+var crawlDump = function() {
+    var url = "";
+
+    //aww yiss., read from dump line by line
+    var stream = request(dumpUrl).pipe(byline.createStream());
+
+    stream.on('data', function(line) {
+        console.log('ses');
+        console.log('line');
+        console.log(line.toString('utf-8'));
+        var url = line.toString('utf-8');
+        logocrawler.crawl(url, function(result) {
+            console.log('result');
+            console.log(result);
+        });
+    });
+}
+
 var crawl = function(urls, callback) {
     
     var siteObjects = [];
@@ -31,27 +54,28 @@ var crawl = function(urls, callback) {
     for (var u in urls)
     {
         var site;
-        //if (urls[u].indexOf('https') != -1) {
-        //    //add https crawler
-        //} else {
-            count++;
-            console.log('count+' + count);
-            logocrawler.crawl(urls[u], function(result) {
-                count--;
-                console.log('count-' + count);
-                if (result) 
-                {
-                    siteObjects.push(result);
-                } 
-                if (count === 0) callback(siteObjects);
-            });
-        //}
+        count++;
+        console.log('count+' + count);
+        logocrawler.crawl(urls[u], function(result) {
+            count--;
+            console.log('count-' + count);
+            if (result) 
+            {
+                siteObjects.push(result);
+            } 
+            if (count === 0) callback(siteObjects);
+        });
     }
     console.log("found "+siteObjects.length);
     return siteObjects;
 }
 
+module.exports = function() {
+	return crawlDump();
+}
 
+/*
 module.exports = function() {
 	return crawlAll();
 }
+*/
