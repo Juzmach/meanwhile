@@ -1,3 +1,8 @@
+var mongoose = require('mongoose');
+var sitemodel = require('../models/site'),
+    Site = mongoose.model('Site');
+
+
 module.exports = function(app) {
     app.get('/', function (req, res) {
         res.render('index');
@@ -8,51 +13,50 @@ module.exports = function(app) {
         res.render('partials/' + name);
     });
 
-    app.get('/pinterest/:id', function(req, res, next) {
-	//TODO: find data from db	
-	var id = req.params.id //TODO: get from db with this id
+    app.get('/pinterest/', function(req, res, next) {
+        var from = req.query.from;
+        var to = req.query.to;
+        console.log(from);
+        console.log(to);
+        var foundsites;
 
-	var obj = {
-		_id: id,
-	 	siteName: 'test number ' + id,
-		logo: getUrl(id),
-		techs: getTech(id)
-	}
-	res.json(obj);
+        Site.find(function (err, sites) {
+            console.log(sites.length);
+            foundsites = sites; 
+        });
+            //TODO: get data from database or something
+
+        var arr = [];
+        for(var i in foundsites) {
+            if (i > to) break;
+            var obj = {
+                id: idx,
+                name: foundsites[i].sitename,
+                imageUrl: foundsites[i].url
+            };
+            arr.push(obj);
+        }
+
+            res.json(arr);
     });
 
     app.get('/pinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
 
-        //TODO: get data from database or something
-
-	var arr = []
-	for(var idx = from; idx < to; idx++) {
-		var obj = {
-			_id: idx,
-			siteName: 'test number ' + idx,
-			logo: getUrl(idx),
-            techs: [getTech()]
-		}	
-		arr.push(obj);
-	}
+        var arr = [];
+        for(var idx = from; idx < to; idx++) {
+            var obj = {
+                id: idx,
+                name: 'test number ' + idx,
+                imageUrl: getUrl(idx)
+            }	
+            arr.push(obj);
+        }
 
         res.json(arr);
     });
-};
 
-var techs = [
-    'AngularJS',
-    'Node.js',
-    'Ruby On Rails',
-    'Django',
-    'Java'
-];
-
-var getTech = function getTech(idx){
-    var idx = Math.floor((Math.random() * (urls.length - 1)));
-    return techs[idx];
 }
 
 var urls = [
@@ -64,7 +68,8 @@ var urls = [
 	'http://kuvaton.com/kuvei/fail_21.jpg'
 	
 ];
+
 var getUrl = function getUrl(idx) {
 	var idx = Math.floor((Math.random() * (urls.length - 1)));
 	return urls[idx];
-};
+}

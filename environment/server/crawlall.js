@@ -1,22 +1,32 @@
 var logocrawler = require('./logocrawler');
 
-var crawl = function(app, urls) {
+var crawl = function(app, urls, callback) {
     
     var siteObjects = [];
 
+    var count = 0;
     for (var u in urls)
     {
         var site;
-        if (urls[u].substr('https') != -1) {
+        if (urls[u].indexOf('https') != -1) {
+            //add https crawler
         } else {
-            var site = logocrawler.crawl(urls[u]);
+            count++;
+            console.log('count+' + count);
+            logocrawler.crawl(urls[u], function(result) {
+                count--;
+                console.log('count-' + count);
+                if (result) 
+                {
+                    siteObjects.push(result);
+                } 
+                if (count === 0) callback(siteObjects);
+            });
         }
-        if (site) 
-        {
-            siteObjects.append(site);
-        } 
-    }
 
+        
+    }
+    console.log("found "+siteObjects.length);
     return siteObjects;
 
 }
