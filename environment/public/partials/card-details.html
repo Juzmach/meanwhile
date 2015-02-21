@@ -1,4 +1,18 @@
 <div class="container text-center">
-    <h2>{{card.siteName}}</h2>
     <img ng-src="{{card.logo}}">
+    <div class="page-header">
+        <h2>{{card.siteName}}</h2>
+    </div>
+    <div class="row">
+        <h3>Front-End</h3>
+        <p>AngularJS</p>
+    </div>
+    <div class="row">
+        <h3>Back-End</h3>
+        <p>Node.js</p>
+    </div>
+    <a href="#/cards/{{prevCard}}" ng-hide="card._id == 0">Prev</a>
+    <a href="#/">Back</a>
+    <a href="#/cards/{{nextCard}}">Next</a>
+
 </div>
