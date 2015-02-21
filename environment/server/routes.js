@@ -17,7 +17,7 @@ module.exports = function(app) {
         //TODO: get data from database or something
 
 	var arr = []
-	for(var idx = from; i < to; i++) {
+	for(var idx = from; idx < to; idx++) {
 		var obj = {
 			id: idx,
 			name: 'test number ' + idx,

@@ -2,7 +2,7 @@
  * Created by Tsarpf on 2/14/15.
  */
 
-angular.module('meanwhileControllers').controller("PinterestController", ['$scope', '$http', function($scope, $http) {
+angular.module('meanwhileControllers').controller("PinterestController", ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 
     $scope.results = [];
     $scope.loaded = false;
@@ -14,21 +14,21 @@ angular.module('meanwhileControllers').controller("PinterestController", ['$scop
     $scope.getContent = function() {
 	console.log('oh hi');
 	var reqObj = {
-		url: '/pinterest/',
 		params: {from: from, to: to} 
 	}
 	from += increment;
 	to += increment;
 
-        $http.get(reqObj).
+        $http.get('/pinterest/', reqObj).
             success(function(data, status, headers, config) {
-                $scope.results = data;
+                $scope.results = $scope.results.concat(data);
 		console.log(data);
             }).
             error(function(data, status, headers, config) {
+		console.log('error');
 		console.log(data);
             });
     };
-
+    
     $scope.getContent();
 }]);
