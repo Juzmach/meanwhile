@@ -32,7 +32,6 @@ var runServer = function(options) {
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/../public/');
 
-
     //Always use pretty html.
     app.locals.pretty = true;
 
@@ -49,7 +48,6 @@ var runServer = function(options) {
     require('./crawlall')();
     
     return {app: app, server: server, mongConn: mongooseConn};
-
 }
 
 module.exports = function(options) {

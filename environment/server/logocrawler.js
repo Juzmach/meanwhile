@@ -1,35 +1,41 @@
 var http = require('http');
+var request = require('request');
 
 var crawl = function(url, callback) {
-    
-    console.log("halp");
-    http.get(url, function(res) {
-        try {
-            console.log('i work');
-            var chunk = "";
-            res.on('data', function(data) {
-                chunk += data;
-            });
-            res.on('end', function() {
-                console.log("end");
-                callback({
-                    name: findName(url),
-                    logo: findLogo(chunk, getBaseUrl(url)),
-                    techs: findTechs(chunk, url)
+
+    request(url, function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+            var name, logo, techs;
+
+            findName(url, function(nimi) {
+                name = nimi;
+                logo = findLogo(body, getBaseUrl(url));
+                techs = findTechs(body, url, function(techArray) {
+                    callback({
+                        name: name, 
+                        logo: logo, 
+                        techs: techArray
+                    });
                 });
             });
-            res.on('error', function(err) {
-                console.log('panic panic panic ' + err);
-                callback(null);
-            });
-        } catch (e) {
-            console.log("oops" + e);
+        }
+        else {
+            console.log('request error');
+            console.log(error);
+            console.log(response.statusCode);
         }
     });
 }
 
-var findName = function(url) {
-    var headeri = headerit(url);
+var findName = function(url, callback) {
+    headerit(url, function(headerit) {
+       console.log(headerit); 
+       //
+       //Parsi nimi headereista
+       var nimi = "";
+
+       callback(nimi);
+   });
 }
 
 var getBaseUrl = function(url) {
@@ -41,7 +47,7 @@ var getBaseUrl = function(url) {
 }
 
 var getSiteName = function(data) {
-    
+
 }
 
 var findLogo = function(data, url) {
@@ -55,54 +61,51 @@ var findLogo = function(data, url) {
     } else {
         return link;
     }
-    
+
 }
 
-var findTechs = function (data, url) {
+var findTechs = function (data, url, callback) {
     var techs = [];
     if (findBuzzword(data, url, "WordPress")) techs.push("WordPress");
     if (findBuzzword(data, url, "PHP")) techs.push("PHP");
-    techs.push(findServer(data, url));
-    return techs;
+
+    findServer(data, url, function(server) {
+        techs.push(server);
+        callback(techs);
+    });
 }
 
 
 //
-var headerit = function(url) {
-    var newurl = url.slice(url.indexOf(".")+1, url.indexOf('/', url.indexOf("."))); //strips off http://www.
-    console.log(newurl);
-    var options = {method: 'HEAD', host: newurl, port: 80, path: '/'};
-    var req = http.request(options, function(res) {
-        console.log((res.headers));
-        return res.headers;
+var headerit = function(url, callback) {
+    request(url, function(error, response, body) {
+        console.log('server');
+        console.log(response.headers.server);
+        callback(response.headers);
     });
-    req.end();
 }
 
 var findBuzzword = function(data,url, word) { //katsoo onko lähde koodissa WPressiä
-var substr ="WordPress"
-if(data.indexOf(word) > -1) {
-    console.log("true") //tähän joku palautus
-    return true;
-}else{
-     console.log("false") }
-     return false;
+    var substr ="WordPress";
+    if(data.indexOf(word) > -1) {
+        console.log("true") //tähän joku palautus
+            return true;
+    } else{
+        console.log("false") }
+    return false;
 }
 var getUrlWithOutHTTP = function(url){
-        var parsettu = url.split("/");
-        var urli = parsettu[2];
-         return urli;
-    }
+    var parsettu = url.split("/");
+    var urli = parsettu[2];
+    return urli;
+}
 
-var findServer = function  (data,url) {
-     var options = {method: 'HEAD', host: getUrlWithOutHTTP((url)), port: 80, path: '/'};
-var req = http.request(options, function(res) {
-    var myJSon = JSON.stringify(res.headers);
-    var serverName = JSON.parse(myJSon);
-    return serverName.server;
-  }
-);
-req.end();
+var findServer = function  (data,url, callback) {
+    request(url, function(error, response, body) {
+        console.log('server');
+        console.log(response.headers.server);
+        callback(response.headers.server);
+    });
 }
 
 module.exports = {
