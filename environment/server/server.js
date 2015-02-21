@@ -16,14 +16,13 @@ var runServer = function(options) {
     var mongooseConn;
     var connect = function() {
         var options = {server: {socketOptions: {keepAlive: 1}}};
-        //mongooseConn = mongoose.createConnection("mongodb://localhost/", options);
         mongooseConn = mongoose.connect("mongodb://db_1/", options);
     };
     connect();
     mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
     mongoose.connection.on('disconnected', connect);
     mongoose.connection.on('connected', function(){
-        console.log('jeejee');
+	console.log('mongodb connected');
     });
 
     var pub = __dirname + '/../public';
