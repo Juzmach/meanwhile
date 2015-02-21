@@ -8,6 +8,8 @@ var crawl = function(url) {
                 chunk += data;
             });
             res.on('end', function() {
+                findWP(chunk,getBaseUrl(url));
+                findPHP(chunk,getBaseUrl(url));
                 return findLogo(chunk, getBaseUrl(url));
             });
             res.on('error', function(err) {
@@ -40,6 +42,22 @@ var findLogo = function(data, url) {
     }
     
 }
+
+var findWP = function(data,url) {
+var substr ="WordPress"
+if(data.indexOf(substr) > -1) {
+    console.log("trueWP") //tähän joku palautus
+}else{
+     console.log("falseWP") }
+}
+var findPHP = function(data,url) {
+var substr =".php"
+if(data.indexOf(substr) > -1) {
+    console.log("truePHP") 
+}else{
+     console.log("falsePHP ")}
+} 
+
 
 module.exports = {
     crawl: crawl
