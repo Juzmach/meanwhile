@@ -40,17 +40,26 @@ var findName = function(data, callback) {
             nimi = nimi.replace(replacables[i], '');
        }
 
-
        console.log(nimi);
 
        callback(nimi);
 }
 
 var getBaseUrl = function(url) {
+    if (url.indexOf('https') >= 0 && url.indexOf('/', "https://".length+1) == -1)
+    {
+        return url;
+    }
+    if (url.indexOf('https') >= 0)
+    {
+        return url.slice(0, url.indexOf("/", "https://".length)+1);
+    }
     if (url.indexOf('http') >= 0)
     {
-        return url.slice(0, url.indexOf("/", "http://".length)+1);
+        return url.slice(0, url.indexOf("/", "http://".length));
     }
+    
+    
     return url.slice(0, url.indexOf('/'));
 }
 var getUrlWithOutHTTP = function(url){
@@ -67,8 +76,9 @@ var findLogo = function(data, url) {
     var linkFoundAt = data.indexOf("<img src=\"", logoFoundAt-150); //just a random number, let's hope we don't run into longer links
     var linkEndsAt = data.indexOf('"', linkFoundAt+10);
     var link = data.slice(linkFoundAt+"<img src=\"".length, linkEndsAt);
-    if (link.indexOf('http') == -1) 
+    if (link.indexOf('http') == -1) ///&& link.indexOf('www') == -1
     {
+        console.log(url + link);
         return url+link;
     } else {
         return link;
