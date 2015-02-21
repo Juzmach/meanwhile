@@ -28,12 +28,10 @@ var crawl = function(url, callback) {
 }
 
 var findName = function(url, callback) {
-    headerit(url, function(headerit) {
-       console.log(headerit); 
-       //
-       //Parsi nimi headereista
+    headerit(url, function(headerit) { //hakee Titletlestä nimen. 
        var nimi = "";
-
+    var nimi =  data.slice( (data.indexOf( "<title>")+7 ) , (data.indexOf("</title>"))) ;
+        console.log(nimi);
        callback(nimi);
    });
 }
