@@ -50,12 +50,12 @@ var runServer = function(options) {
     require('./routes')(app);
     var crawler = require('./crawlall'); 
     crawler.crawl(app, urls, function(sites) {
+        console.log("found " + sites.length);
         for (var s in sites)
         {
             var newSite = new Site({logo: sites[s].logo, techs: sites[s].techs, sitename: sites[s].name});
             newSite.save(function (err, newSite) {
                 if (err) console.log(err);
-                console.log(newSite + "saved");
             });
         }
     
