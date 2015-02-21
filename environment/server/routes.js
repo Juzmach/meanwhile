@@ -22,25 +22,24 @@ module.exports = function(app) {
 
         Site.find(function (err, sites) {
             console.log(sites.length);
-            foundsites = sites; 
-        });
-            //TODO: get data from database or something
-
-        var arr = [];
-        for(var i in foundsites) {
+            var arr = [];
+            for(var i in sites) {
             if (i > to) break;
             var obj = {
-                id: idx,
-                name: foundsites[i].sitename,
-                imageUrl: foundsites[i].url
+                _id: i,
+                siteName: sites[i].name,
+                logo: sites[i].logo
             };
             arr.push(obj);
         }
-
             res.json(arr);
+  
+        });
+            //TODO: get data from database or something
+
     });
 
-    app.get('/pinterest/', function(req, res, next) {
+    app.get('/mockpinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
 
