@@ -40,9 +40,6 @@ module.exports = function(app) {
     app.get('/piwnterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
-        console.log(from);
-        console.log(to);
-
 
         var arr = [];
         for(var idx = from; idx < to; idx++) {
