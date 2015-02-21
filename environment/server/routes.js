@@ -35,9 +35,9 @@ module.exports = function(app) {
         });
 
         
-    });
-
-    app.get('/piwnterest/', function(req, res, next) {
+    }); 
+    
+    app.get('/mockpinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
 
