@@ -1,8 +1,10 @@
-<div class="container">
+<div class="container-fluid" ng-controller="PinterestController as pinCtrl">
     <div deckgrid class="deckgrid pinterest-picture", source="results">
-	    <div class="pinterest-container">
-	        <h4>{{card.name}}</h4>
-	        <img src="{{card.imageUrl}}" class="pinterest-picture img-rounded"> </img>
-	    </div>
+	    <a href="/cards/{{card.$index}}">
+            <div class="pinterest-container">
+	            <h4>{{card.name}}</h4>
+	            <img src="{{card.imageUrl}}" class="pinterest-picture img-rounded"> </img>
+	        </div>
+        </a>
     </div>
 </div>
