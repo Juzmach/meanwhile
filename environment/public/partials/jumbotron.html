@@ -1,3 +1,7 @@
+<script type="text/javascript">
+    $('#help').popover();
+</script>
+
 <div class="jumbotron" ng-controller="SearchController">
     <div class="container">
         <div class="row">
@@ -7,11 +11,22 @@
             <p>I wish to know how..</p>
         </div>
         <div class="row">
-            <form action="#" class="" novalidate>
-                <div class="form-group col-sm-6 col-sm-offset-3">
-                    <input type="text" placeholder="e.g. www.angularjs.org" class="form-control input-lg">
-                </div>
-            </form>
+            <div class="col-xs-6 col-xs-offset-3">
+                <form action="#" class="" novalidate>
+                    <div class="input-group input-group-hg">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn"><span class="fui-search"></span></button>
+                        </span>
+                        <input type="text" class="form-control" placeholder="e.g. www.angularjs.org" required>
+                        <span id="help"
+                              class="input-group-addon"
+                              data-container="body"
+                              data-toggle="popover"
+                              data-placement="right"
+                              data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">?</span>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="row">
             <p>...works.</p>
