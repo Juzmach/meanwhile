@@ -41,6 +41,24 @@
     padding-bottom: 1.5em;
     color: white;
 }
+span.glyphicon-chevron-right,
+span.glyphicon-chevron-left {
+    font-size: 2.5em;
+    color: rgb(52, 152, 219);
+}
+
+a {
+    color: rgb(52, 152, 219);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: rgb(52, 152, 219);
+}
 
 ul {
     list-style-type: none;

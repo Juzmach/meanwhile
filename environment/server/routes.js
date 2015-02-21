@@ -44,9 +44,9 @@ module.exports = function(app) {
         var arr = [];
         for(var idx = from; idx < to; idx++) {
             var obj = {
-                id: idx,
-                name: 'test number ' + idx,
-                imageUrl: getUrl(idx)
+                _id: idx,
+                siteName: 'test number ' + idx,
+                logo: getUrl(idx)
             }	
             arr.push(obj);
         }
