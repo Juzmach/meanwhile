@@ -16,7 +16,7 @@ module.exports = function(app) {
     app.get('/pinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
-        var search = req.query.searchTerm;
+        var searchTerm = req.query.searchTerm;
         console.log(from);
         console.log(to);
         var arr = [];
