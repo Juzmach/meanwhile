@@ -1,4 +1,4 @@
-angular.module('meanwhile').controller("SearchController",['$scope', '$http',function($scope,$http){
+angular.module('meanwhileControllers',[]).controller("SearchController",['$scope', '$http',function($scope,$http){
     
 }]);
 
