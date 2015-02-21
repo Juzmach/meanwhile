@@ -8,7 +8,7 @@ angular.module('meanwhileControllers').controller("PinterestController", ['$scop
     $scope.loaded = false;
 
     var from = 0;
-    var increment = 10;
+    var increment = 20;
     var to = from + increment;
 
     $scope.getContent = function() {
