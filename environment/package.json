@@ -7,15 +7,14 @@
     "express": "*",
     "cookie-parser": "*",
     "mongoose": "*",
+    "byline": "~4.2.1",
     "ejs": "*",
     "body-parser": "*",
     "supertest": "*",
     "request": "*"
   },
-
   "scripts": {
     "start": "nodemon run.js",
     "test": "../node_modules/.bin/mocha"
   }
-
 }
