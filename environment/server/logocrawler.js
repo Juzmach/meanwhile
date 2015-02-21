@@ -56,6 +56,7 @@ var findLogo = function(data, url) {
 }
 
 var findTechs = function (data, url) {
+    console.log("testi2");
     var techs = [];
     if (findBuzzword(data, url, "WordPress")) techs.append("WordPress");
     if (findBuzzword(data, url, "PHP")) techs.append("PHP");
