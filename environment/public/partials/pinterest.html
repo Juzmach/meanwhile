@@ -1,9 +1,9 @@
-<div class="container-fluid">
+<div class="container-fluid" infinite-scroll="getContent()" infinite-scroll-distance="3">
     <div deckgrid class="deckgrid pinterest-picture", source="results">
-	    <a href="#/cards/{{card.id}}">
+	    <a href="#/cards/{{card._id}}">
             <div class="pinterest-container">
-	            <h4>{{card.name}}</h4>
-	            <img src="{{card.imageUrl}}" class="pinterest-picture img-rounded"> </img>
+	            <h4>{{card.siteName}}</h4>
+	            <img src="{{card.logo}}" class="pinterest-picture img-rounded"> </img>
 	        </div>
         </a>
     </div>

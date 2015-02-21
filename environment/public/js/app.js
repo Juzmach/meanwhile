@@ -1,9 +1,12 @@
+angular.module('meanwhileControllers', ['infinite-scroll','ngRoute']);
+
 var app = angular.module('meanwhile', [
     'ngAnimate',
     'ui.bootstrap',
     'akoenig.deckgrid',
     'ngRoute',
     'meanwhileControllers']);
+
 
 app.config(['$routeProvider',
     function($routeProvider){

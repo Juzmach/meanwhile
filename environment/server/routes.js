@@ -1,3 +1,8 @@
+var mongoose = require('mongoose');
+var sitemodel = require('../models/site'),
+    Site = mongoose.model('Site');
+
+
 module.exports = function(app) {
     app.get('/', function (req, res) {
         res.render('index');
@@ -9,43 +14,62 @@ module.exports = function(app) {
     });
 
     app.get('/pinterest/', function(req, res, next) {
-        var search = req.query.searchTerm;
-        var count = req.query.count;
-        //etc, name it something sensible
+        var from = req.query.from;
+        var to = req.query.to;
+        console.log(from);
+        console.log(to);
+        var foundsites;
 
-        //get data from database or something
-        var placeholder = [
-            {
-                id: 1,
-                name: 'ebin',
-                imageUrl: 'http://kuvaton.com/kuvei/kurret.jpg'
-            },
-            {
-                id: 2,
-                name: 'ses',
-                imageUrl: 'http://kuvaton.com/kuvei/icebergs_blue_ice_after_it_has_flipped.jpg'
-            },
-            {
-                id: 3,
-                name: 'tuosta',
-                imageUrl: 'http://kuvaton.com/kuvei/i_got_a_new_kadabra_plushie.jpg'
-            },
-            {
-                id: 4,
-                name: 'oispa',
-                imageUrl: 'http://kuvaton.com/kuvei/wtf_19.jpg'
-            },
-            {
-                id: 5,
-                name: 'eispä',
-                imageUrl: 'http://kuvaton.com/kuvei/godzilla_3.jpg'
-            },
-            {
-                id: 6,
-                name: 'test',
-                imageUrl: 'http://kuvaton.com/kuvei/fail_21.jpg'
-    	}];
+        Site.find(function (err, sites) {
+            console.log(sites.length);
+            foundsites = sites; 
+        });
+            //TODO: get data from database or something
 
-        res.json(placeholder);
+        var arr = [];
+        for(var i in foundsites) {
+            if (i > to) break;
+            var obj = {
+                id: idx,
+                name: foundsites[i].sitename,
+                imageUrl: foundsites[i].url
+            };
+            arr.push(obj);
+        }
+
+            res.json(arr);
     });
-};
+
+    app.get('/pinterest/', function(req, res, next) {
+        var from = req.query.from;
+        var to = req.query.to;
+
+        var arr = [];
+        for(var idx = from; idx < to; idx++) {
+            var obj = {
+                id: idx,
+                name: 'test number ' + idx,
+                imageUrl: getUrl(idx)
+            }	
+            arr.push(obj);
+        }
+
+        res.json(arr);
+    });
+
+}
+
+var urls = [
+	'http://kuvaton.com/kuvei/kurret.jpg',
+	'http://kuvaton.com/kuvei/icebergs_blue_ice_after_it_has_flipped.jpg',
+	'http://kuvaton.com/kuvei/i_got_a_new_kadabra_plushie.jpg',
+	'http://kuvaton.com/kuvei/wtf_19.jpg',
+	'http://kuvaton.com/kuvei/godzilla_3.jpg',
+	'http://kuvaton.com/kuvei/fail_21.jpg'
+	
+];
+
+var getUrl = function getUrl(idx) {
+	var idx = Math.floor((Math.random() * (urls.length - 1)));
+	return urls[idx];
+}

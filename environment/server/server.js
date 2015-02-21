@@ -16,23 +16,21 @@ var runServer = function(options) {
     var mongooseConn;
     var connect = function() {
         var options = {server: {socketOptions: {keepAlive: 1}}};
-        //mongooseConn = mongoose.createConnection("mongodb://localhost/", options);
         mongooseConn = mongoose.connect("mongodb://db_1/", options);
     };
     connect();
     mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
     mongoose.connection.on('disconnected', connect);
     mongoose.connection.on('connected', function(){
-        console.log('jeejee');
+	console.log('mongodb connected');
     });
 
     var pub = __dirname + '/../public';
     app.use(express.static(pub));
-    //app.use(bodyParser.urlencoded({extended:true}));
+    app.use(bodyParser.urlencoded({extended:true}));
 
     app.set('view engine', 'ejs');
     app.set('views', __dirname + '/../public/');
-
 
     //Always use pretty html.
     app.locals.pretty = true;
@@ -44,25 +42,12 @@ var runServer = function(options) {
         console.log("server running..");
     });
 
-    //var url = "http://www.mcdonalds.fi/fi.html";
-    //var url = "http://www.hs.fi/";
-    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/","http://victorblog.com/metronome/"];
-
     require('./routes')(app);
 
-    var crawler = require('./crawlall'); 
-    var sites = crawler.crawl(app, urls);
-    for (var site in sites)
-    {
-        console.log('i work');
-        var newSite = new Site({logo: site.logo});
-        newSite.save(function (err, newSite) {
-            if (err) console.log(err);
-        });
-    }
-
+    //Start crawling
+    require('./crawlall')();
+    
     return {app: app, server: server, mongConn: mongooseConn};
-
 }
 
 module.exports = function(options) {

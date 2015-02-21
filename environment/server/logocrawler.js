@@ -1,28 +1,41 @@
 var http = require('http');
+var request = require('request');
 
+var crawl = function(url, callback) {
 
-var crawl = function(url) {
-    http.get(url, function(res) {
-        try {
-            var chunk = "";
-            res.on('data', function(data) {
-                chunk += data;
+    request(url, function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+            var name, logo, techs;
+
+            findName(url, function(nimi) {
+                name = nimi;
+                logo = findLogo(body, getBaseUrl(url));
+                techs = findTechs(body, url, function(techArray) {
+                    callback({
+                        name: name, 
+                        logo: logo, 
+                        techs: techArray
+                    });
+                });
             });
-            res.on('end', function() {
-                getUrlWithOutHTTP(getBaseUrl(url));
-                findServer(chunk,getBaseUrl(url));
-                findWP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
-                findPHP(chunk,getBaseUrl(url)); //tulostaa tarkistuksen consoliin
-                findAngularJS(chunk,getBaseUrl(url));
-                return findLogo(chunk, getBaseUrl(url));
-            });
-            res.on('error', function(err) {
-                console.log('panic panic panic ' + err);
-            });
-        } catch (e) {
-            console.log(e);
+        }
+        else {
+            console.log('request error');
+            console.log(error);
+            console.log(response.statusCode);
         }
     });
+}
+
+var findName = function(url, callback) {
+    headerit(url, function(headerit) {
+       console.log(headerit); 
+       //
+       //Parsi nimi headereista
+       var nimi = "";
+
+       callback(nimi);
+   });
 }
 
 var getBaseUrl = function(url) {
@@ -40,6 +53,10 @@ var getUrlWithOutHTTP = function(url){
          return urli;
     }
 
+var getSiteName = function(data) {
+
+}
+
 var findLogo = function(data, url) {
     var logoFoundAt = data.indexOf('logo');
     var linkFoundAt = data.indexOf("<img src=\"", logoFoundAt-150); //just a random number, let's hope we don't run into longer links
@@ -51,34 +68,52 @@ var findLogo = function(data, url) {
     } else {
         return link;
     }
-    
+
 }
 
-var findWP = function(data,url) { //katsoo onko lähde koodissa WPressiä
-var substr ="WordPress"
-if(data.indexOf(substr) > -1) {
-    console.log("trueWP") //tähän joku palautus
-}else{
-     console.log("falseWP") }
-}
-var findPHP = function(data,url) { //katsoo onko .php tiedostoja
-var substr =".php"
-if(data.indexOf(substr) > -1) {
-    console.log("truePHP") 
-}else{
-     console.log("falsePHP ")}
+var findTechs = function (data, url, callback) {
+    var techs = [];
+    if (findBuzzword(data, url, "WordPress")) techs.push("WordPress");
+    if (findBuzzword(data, url, "PHP")) techs.push("PHP");
+
+    findServer(data, url, function(server) {
+        techs.push(server);
+        callback(techs);
+    });
 }
 
-var findServer = function  (data,url) {
-     var options = {method: 'HEAD', host: getUrlWithOutHTTP((url)), port: 80, path: '/'};
-var req = http.request(options, function(res) {
-    var myJSon = JSON.stringify(res.headers);
-    var serverName = JSON.parse(myJSon);
-    console.log(serverName.server);
-  }
-);
-req.end();
+var headerit = function(url, callback) {
+    request(url, function(error, response, body) {
+        console.log('server');
+        console.log(response.headers.server);
+        callback(response.headers);
+    });
 }
+
+var findBuzzword = function(data,url, word) { //katsoo onko lähde koodissa WPressiä
+    var substr ="WordPress";
+    if(data.indexOf(word) > -1) {
+        console.log("true") //tähän joku palautus
+            return true;
+    } else{
+        console.log("false") }
+    return false;
+}
+
+var getUrlWithOutHTTP = function(url){
+    var parsettu = url.split("/");
+    var urli = parsettu[2];
+    return urli;
+}
+
+var findServer = function  (data,url, callback) {
+    request(url, function(error, response, body) {
+        console.log('server');
+        console.log(response.headers.server);
+        callback(response.headers.server);
+    });
+}
+
 var findAngularJS = function(data,url) { 
 var substr ="angular"
 if(data.indexOf(substr) > -1) {
