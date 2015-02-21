@@ -1,3 +1,8 @@
+var mongoose = require('mongoose');
+var sitemodel = require('../models/site'),
+    Site = mongoose.model('Site');
+
+
 module.exports = function(app) {
     app.get('/', function (req, res) {
         res.render('index');
@@ -11,24 +16,51 @@ module.exports = function(app) {
     app.get('/pinterest/', function(req, res, next) {
         var from = req.query.from;
         var to = req.query.to;
-	console.log(from);
-	console.log(to);
+        console.log(from);
+        console.log(to);
+        var foundsites;
 
-        //TODO: get data from database or something
+        Site.find(function (err, sites) {
+            console.log(sites.length);
+            foundsites = sites; 
+        });
+            //TODO: get data from database or something
 
-	var arr = []
-	for(var idx = from; idx < to; idx++) {
-		var obj = {
-			id: idx,
-			name: 'test number ' + idx,
-			imageUrl: getUrl(idx)
-		}	
-		arr.push(obj);
-	}
+        var arr = [];
+        for(var i in foundsites) {
+            if (i > to) break;
+            var obj = {
+                id: idx,
+                name: foundsites[i].sitename,
+                imageUrl: foundsites[i].url
+            };
+            arr.push(obj);
+        }
+
+            res.json(arr);
+    });
+
+    app.get('/pinterest/', function(req, res, next) {
+        var from = req.query.from;
+        var to = req.query.to;
+        console.log(from);
+        console.log(to);
+
+
+        var arr = [];
+        for(var idx = from; idx < to; idx++) {
+            var obj = {
+                id: idx,
+                name: 'test number ' + idx,
+                imageUrl: getUrl(idx)
+            }	
+            arr.push(obj);
+        }
 
         res.json(arr);
     });
-};
+
+}
 
 var urls = [
 	'http://kuvaton.com/kuvei/kurret.jpg',
@@ -38,7 +70,8 @@ var urls = [
 	'http://kuvaton.com/kuvei/godzilla_3.jpg',
 	'http://kuvaton.com/kuvei/fail_21.jpg'
 	
-]
+];
+
 var getUrl = function getUrl(idx) {
 	var idx = Math.floor((Math.random() * (urls.length - 1)));
 	return urls[idx];

@@ -45,20 +45,22 @@ var runServer = function(options) {
 
     //var url = "http://www.mcdonalds.fi/fi.html";
     //var url = "http://www.hs.fi/";
-    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/", "https://github.com"];
+    var urls = ["http://www.cloetta.fi/", "http://www.hs.fi/", "https://github.com"]; //, "www.fazer.fi", "www.iltasanomat.fi", "www.volvocars.com", "www.finnair.com"];
 
     require('./routes')(app);
-
     var crawler = require('./crawlall'); 
-    var sites = crawler.crawl(app, urls);
-    for (var site in sites)
-    {
-        var newSite = new Site({logo: site.logo, techs: site.techs, sitename: site.name});
-        newSite.save(function (err, newSite) {
-            if (err) console.log(err);
-        });
-    }
-
+    crawler.crawl(app, urls, function(sites) {
+        for (var s in sites)
+        {
+            var newSite = new Site({logo: sites[s].logo, techs: sites[s].techs, sitename: sites[s].name});
+            newSite.save(function (err, newSite) {
+                if (err) console.log(err);
+                console.log(newSite + "saved");
+            });
+        }
+    
+    });
+    
     return {app: app, server: server, mongConn: mongooseConn};
 
 }

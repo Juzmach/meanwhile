@@ -1,7 +1,8 @@
 var http = require('http');
 
-var crawl = function(url) {
+var crawl = function(url, callback) {
     
+    console.log("halp");
     http.get(url, function(res) {
         try {
             console.log('i work');
@@ -10,17 +11,19 @@ var crawl = function(url) {
                 chunk += data;
             });
             res.on('end', function() {
-                return {
-                    name: findName(url),
-                    logo :findLogo(chunk, getBaseUrl(url)),
-                    techs: findTechs(chunk, url)
-                };
+                console.log("end");
+                callback({
+                    //name: findName(url),
+                    //logo: findLogo(chunk, getBaseUrl(url)),
+                    //techs: findTechs(chunk, url)
+                });
             });
             res.on('error', function(err) {
                 console.log('panic panic panic ' + err);
+                callback(null);
             });
         } catch (e) {
-            console.log(e);
+            console.log("oops" + e);
         }
     });
 }
@@ -57,24 +60,23 @@ var findLogo = function(data, url) {
 
 var findTechs = function (data, url) {
     var techs = [];
-    if (findBuzzword(data, url, "WordPress")) techs.append("WordPress");
-    if (findBuzzword(data, url, "PHP")) techs.append("PHP");
-    if (findApache(data, url)) techs.append("Apache");
+    if (findBuzzword(data, url, "WordPress")) techs.push("WordPress");
+    if (findBuzzword(data, url, "PHP")) techs.push("PHP");
+    if (findApache(data, url)) techs.push("Apache");
     return techs;
 }
 
 
 //
-var headerit = function(url){
+var headerit = function(url) {
     var newurl = url.slice(url.indexOf(".")+1, url.indexOf('/', url.indexOf("."))); //strips off http://www.
     console.log(newurl);
     var options = {method: 'HEAD', host: newurl, port: 80, path: '/'};
     var req = http.request(options, function(res) {
         console.log((res.headers));
         return res.headers;
-  }
-);
-req.end();
+    });
+    req.end();
 }
 
 var findBuzzword = function(data,url, word) { //katsoo onko lähde koodissa WPressiä
