@@ -2,7 +2,7 @@
  * Created by Tsarpf on 2/14/15.
  */
 
-angular.module('meanwhile').controller("PinterestController", ['$scope', '$http', function($scope, $http) {
+angular.module('meanwhileControllers',[]).controller("PinterestController", ['$scope', '$http', function($scope, $http) {
     $scope.results = [];
     $scope.loaded = false;
     $scope.getContent = function() {

@@ -7,8 +7,7 @@ done
 echo "$(date) - connected successfully"
 mkdir -p src/public/libs
 cp -r bower_components/* src/public/libs/
-ls src/public/libs
-ls src/public/
+ls src/public/libs/jquery/dist
 cd src
 npm start
 

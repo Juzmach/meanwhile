@@ -16,26 +16,32 @@ module.exports = function(app) {
         //get data from database or something
         var placeholder = [
             {
+                id: 1,
                 name: 'ebin',
                 imageUrl: 'http://kuvaton.com/kuvei/kurret.jpg'
             },
             {
+                id: 2,
                 name: 'ses',
                 imageUrl: 'http://kuvaton.com/kuvei/icebergs_blue_ice_after_it_has_flipped.jpg'
             },
             {
+                id: 3,
                 name: 'tuosta',
                 imageUrl: 'http://kuvaton.com/kuvei/i_got_a_new_kadabra_plushie.jpg'
             },
             {
+                id: 4,
                 name: 'oispa',
                 imageUrl: 'http://kuvaton.com/kuvei/wtf_19.jpg'
             },
             {
+                id: 5,
                 name: 'eispä',
                 imageUrl: 'http://kuvaton.com/kuvei/godzilla_3.jpg'
             },
             {
+                id: 6,
                 name: 'test',
                 imageUrl: 'http://kuvaton.com/kuvei/fail_21.jpg'
     	}];
