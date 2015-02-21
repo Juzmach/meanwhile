@@ -14,7 +14,7 @@ angular.module('meanwhileControllers').controller("PinterestController", ['$scop
     $scope.getContent = function() {
 	console.log('oh hi');
 	var reqObj = {
-		params: {from: from, to: to} 
+		params: {from: from, to: to, searchTerm: $scope.searchTerm}
 	}
 	from += increment;
 	to += increment;
