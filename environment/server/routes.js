@@ -27,7 +27,9 @@ module.exports = function(app) {
                 var obj = {
                     _id: i,
                     siteName: sites[i].sitename,
-                    logo: sites[i].logo
+                    logo: sites[i].logo,
+                    front: sites[i].frontend,
+                    back: sites[i].backend
                 };
                 arr.push(obj);
             }

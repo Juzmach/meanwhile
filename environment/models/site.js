@@ -8,9 +8,13 @@ var SiteSchema = new Schema({
 	logo: {
 		type: String
 	},
-	techs: {
+	frontend: {
 		type: Array
-}});
+    },
+    backend: {
+        type: Array
+    }
+});
 
 SiteSchema.methods = {
 }
