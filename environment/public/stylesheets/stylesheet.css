@@ -41,3 +41,7 @@
     padding-bottom: 1.5em;
     color: white;
 }
+
+ul {
+    list-style-type: none;
+}
