@@ -37,6 +37,10 @@ var getBaseUrl = function(url) {
     return url.slice(0, url.indexOf('/'));
 }
 
+var getSiteName = function(data) {
+    
+}
+
 var findLogo = function(data, url) {
     var logoFoundAt = data.indexOf('logo');
     var linkFoundAt = data.indexOf("<img src=\"", logoFoundAt-150); //just a random number, let's hope we don't run into longer links
