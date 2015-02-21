@@ -13,11 +13,12 @@ module.exports = function(app) {
 	var id = req.params.id //TODO: get from db with this id
 
 	var obj = {
-		_id: req.params.id,
-	 	siteName: 'test number ' + idx,
-		logo: getUrl(idx),
-        techs: getTech(idx)
+		_id: id,
+	 	siteName: 'test number ' + id,
+		logo: getUrl(id),
+		techs: getTech(id)
 	}
+	res.json(obj);
     });
 
     app.get('/pinterest/', function(req, res, next) {
